@@ -332,73 +332,6 @@ export default class Demo extends Component {
           </BarChart>
         </div>
 
-        <p>BarChart with error bars</p>
-        <div className="bar-chart-wrapper" style={{textAlign: 'right'}}>
-          <BarChart width={400} height={400} data={data} onClick={this.handlePvBarClick}>
-            <XAxis dataKey="name" />
-            <YAxis yAxisId="a" />
-            <YAxis yAxisId="b" orientation="right" />
-            <Legend />
-            <Tooltip />
-            <CartesianGrid vertical={false}/>
-            <Bar yAxisId="a" dataKey="uv" onAnimationStart={this.handleBarAnimationStart} onAnimationEnd={this.handleBarAnimationEnd}>
-              {
-                data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % 20]}/>
-                ))
-              }
-              <ErrorBar dataKey="uvError" />
-            </Bar>
-            <Bar yAxisId="b" dataKey="pv" errorBar={{ errorKey: 'pvError', width: 10, strokeWidth: 1, fill: 'black' }}>
-              {
-                data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % 20]}/>
-                ))
-              }
-              <ErrorBar dataKey="pvError" />
-            </Bar>
-          </BarChart>
-        </div>
-
-
-
-        <p>Tiny BarChart</p>
-        <div className="bar-chart-wrapper">
-          <BarChart width={150} height={40} data={data}>
-            <Bar dataKey="uv" fill="#ff7300" onClick={this.handlePvBarClick} background />
-          </BarChart>
-        </div>
-
-        <p>BarChart of positive and negative values</p>
-        <div className="bar-chart-wrapper" style={{ userSelect: "none", WebkitUserSelect: "none" }}>
-          <BarChart width={1100} height={250} barGap={2} barSize={6} data={data02} margin={{ top: 20, right: 60, bottom: 0, left: 20 }}>
-            <XAxis dataKey="name" />
-            <YAxis tickCount={7} />
-            <Tooltip />
-            <CartesianGrid />
-            <Bar dataKey="uv" fill="#ff7300" />
-            <Bar dataKey="pv" fill="#387908" />
-            <Brush dataKey="name" height={30} />
-            <ReferenceLine type="horizontal" value={0} stroke="#666" />
-          </BarChart>
-        </div>
-
-        <p>BarChart of custom bar (1)</p>
-        <div className="bar-chart-wrapper">
-          <BarChart width={500} height={250} barCategoryGap={0} data={data}  margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
-            <XAxis dataKey="name" />
-            <Bar dataKey="uv" barGap={0} fill="#ff7300" shape={CustomBar} />
-          </BarChart>
-        </div>
-
-        <p>BarChart of custom bar (2)</p>
-        <div className="bar-chart-wrapper">
-          <BarChart width={500} height={250} barCategoryGap={0} data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-            <XAxis axisLine={false} tickLine={false} dataKey="name" tick={<CustomAxis />}/>
-            <Bar dataKey="uv" barGap={0} fill="#387908" shape={<BarTwo />} label />
-          </BarChart>
-        </div>
-
         <p>Stack BarChart</p>
         <div className="bar-chart-wrapper">
           <BarChart width={400} height={400} data={data}>
@@ -416,39 +349,6 @@ export default class Demo extends Component {
             <Legend layout="vertical" />
           </BarChart>
         </div>
-
-        <p>BarChart of range values</p>
-        <div className="area-chart-wrapper">
-          <BarChart
-            width={400}
-            height={400}
-            data={rangeData}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          >
-            <XAxis dataKey="day" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="temperature" fill="#ff7300" />
-          </BarChart>
-        </div>
-
-        <p>Horziontal BarChart</p>
-        <div className="area-chart-wrapper">
-          <BarChart
-            width={1400}
-            height={400}
-            data={data}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            layout="vertical"
-          >
-            <XAxis type="number" />
-            <YAxis dataKey="name" type="category" />
-            <Tooltip />
-            <Bar dataKey="uv" fill="#ff7300" maxBarSize={20} label radius={[0, 5, 5, 0]} />
-            <Bar dataKey="pv" fill="#387908" />
-          </BarChart>
-        </div>
-
       </div>
     );
   }

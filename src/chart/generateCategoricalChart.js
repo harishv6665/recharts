@@ -2,14 +2,11 @@ import React, { Component, cloneElement, isValidElement, createElement } from 'r
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import Surface from '../container/Surface';
-import Layer from '../container/Layer';
 import Tooltip from '../component/Tooltip';
 import Legend from '../component/Legend';
 import Curve from '../shape/Curve';
 import Cross from '../shape/Cross';
 import Sector from '../shape/Sector';
-import Dot from '../shape/Dot';
 import Rectangle from '../shape/Rectangle';
 
 import { findAllByType, findChildByType, getDisplayName, parseChildIndex,
@@ -1363,24 +1360,6 @@ const generateCategoricalChart = ({
       });
     };
 
-    renderActiveDot(option, props) {
-      let dot;
-
-      if (isValidElement(option)) {
-        dot = cloneElement(option, props);
-      } else if (_.isFunction(option)) {
-        dot = option(props);
-      } else {
-        dot = <Dot {...props} />;
-      }
-
-      return (
-        <Layer className="recharts-active-dot" key={props.key}>
-          {dot}
-        </Layer>
-      );
-    }
-
     renderActivePoints({ item, activePoint, basePoint, childIndex, isRange }) {
       const result = [];
       const { key } = item.props;
@@ -1482,18 +1461,7 @@ const generateCategoricalChart = ({
         PolarAngleAxis: { handler: this.renderPolarAxis },
         PolarRadiusAxis: { handler: this.renderPolarAxis },
       };
-
-      // The "compact" mode is mainly used as the panorama within Brush
-      if (compact) {
-        return (
-          <Surface {...attrs} width={width} height={height}>
-            {
-              renderByOrder(children, map)
-            }
-          </Surface>
-        );
-      }
-
+      const svgView = attrs && attrs.viewBox || { width, height, x: 0, y: 0 };
       const events = this.parseEventsOfWrapper();
       return (
         <div
@@ -1502,11 +1470,17 @@ const generateCategoricalChart = ({
           {...events}
           ref={(node) => { this.container = node; }}
         >
-          <Surface {...attrs} width={width} height={height}>
-            {
-              renderByOrder(children, map)
-            }
-          </Surface>
+          <svg
+            {...attrs}
+            className={attrs && attrs.className}
+            width={width}
+            height={height}
+            style={attrs && attrs.style}
+            viewBox={`${svgView.x} ${svgView.y} ${svgView.width} ${svgView.height}`}
+            version="1.1"
+          >
+            {renderByOrder(children, map)}
+          </svg>
           {this.renderLegend()}
           {this.renderTooltip()}
         </div>
